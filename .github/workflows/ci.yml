@@ -50,7 +50,7 @@ jobs:
         run: poetry run pylint service --disable=C0111 --max-line-length=120 --extension-pkg-whitelist='pydantic'
 
       - name: Tests code quality control with pylint
-        run: poetry run pylint tests --disable=C0111,C0415,R0903 --max-line-length=120
+        run: poetry run pylint tests --disable=C0111,C0415,R0903,E0401 --max-line-length=120
 
       - name: Test with pytest
         run: poetry run pytest --cov .
