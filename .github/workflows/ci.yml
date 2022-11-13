@@ -41,13 +41,13 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
 
       - name: Code Format control with black
-        run: poetry run black . --check --diff
+        run: poetry run black service tests --check --diff
 
       - name: Code quality control with flake8
-        run: poetry run flake8 .
+        run: poetry run flake8 service tests
 
       - name: Code quality control with pylint
-        run: poetry run pylint .
+        run: poetry run pylint service tests
 
       - name: Test with pytest
         run: poetry run pytest --cov .
