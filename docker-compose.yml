@@ -17,7 +17,7 @@ services:
     depends_on:
       - redis
     networks:
-      service-network:
+      example-network:
         ipv4_address: 172.16.238.10
 
   worker:
@@ -34,13 +34,13 @@ services:
       - server
       - redis
     networks:
-      service-network:
+      example-network:
         ipv4_address: 172.16.238.11
 
   redis:
     image: redis:6-alpine
     networks:
-      service-network:
+      example-network:
         ipv4_address: 172.16.238.12
 
   dashboard:
@@ -58,7 +58,7 @@ services:
       - redis
       - worker
     networks:
-      service-network:
+      example-network:
         ipv4_address: 172.16.238.13
 
   tests:
@@ -70,7 +70,7 @@ services:
       - .:/usr/src
     command: poetry run pytest -vv --cov .
     networks:
-      service-network:
+      example-network:
         ipv4_address: 172.16.238.14
 
   prometheus:
@@ -83,7 +83,7 @@ services:
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
     networks:
-      service-network:
+      example-network:
         ipv4_address: 172.16.238.15
 
   grafana:
@@ -98,11 +98,11 @@ services:
     env_file:
       - ./observability/config.monitoring
     networks:
-      service-network:
+      example-network:
         ipv4_address: 172.16.238.16
 
 networks:
-  service-network:
+  example-network:
     name: example-network
     driver: bridge
     ipam:

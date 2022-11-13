@@ -1,4 +1,4 @@
-# KISS! == Keep it simple, stupid!
+# Prometheus sources
 global:
   scrape_interval: 15s
   evaluation_interval: 15s
