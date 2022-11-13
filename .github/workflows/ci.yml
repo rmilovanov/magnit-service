@@ -46,7 +46,7 @@ jobs:
       - name: Code quality control with flake8
         run: poetry run flake8 .
 
-      - name Code quality control with pylint
+      - name: Code quality control with pylint
       - run: poetry run pylint .
 
       - name: Test with pytest
