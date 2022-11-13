@@ -16,6 +16,10 @@ services:
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
     depends_on:
       - redis
+    networks:
+      service-network:
+        ipv4_address: 172.16.238.10
+
   worker:
     build:
       context: .
@@ -29,9 +33,15 @@ services:
     depends_on:
       - server
       - redis
+    networks:
+      service-network:
+        ipv4_address: 172.16.238.11
 
   redis:
     image: redis:6-alpine
+    networks:
+      service-network:
+        ipv4_address: 172.16.238.12
 
   dashboard:
     build:
@@ -47,6 +57,9 @@ services:
       - server
       - redis
       - worker
+    networks:
+      service-network:
+        ipv4_address: 172.16.238.13
 
   tests:
     profiles: ["tests"]
@@ -56,6 +69,9 @@ services:
     volumes:
       - .:/usr/src
     command: poetry run pytest -vv --cov .
+    networks:
+      service-network:
+        ipv4_address: 172.16.238.14
 
   prometheus:
     image: prom/prometheus:latest
@@ -66,11 +82,13 @@ services:
       - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
+    networks:
+      service-network:
+        ipv4_address: 172.16.238.15
 
   grafana:
     image: grafana/grafana:latest
     restart: unless-stopped
-    #user: "472"
     depends_on:
       - prometheus
     ports:
@@ -79,3 +97,15 @@ services:
       - ./observability/datasource.yml:/etc/grafana/provisioning/datasource.yml
     env_file:
       - ./observability/config.monitoring
+    networks:
+      service-network:
+        ipv4_address: 172.16.238.16
+
+networks:
+  service-network:
+    name: example-network
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.238.0/24
