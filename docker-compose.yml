@@ -56,3 +56,26 @@ services:
     volumes:
       - .:/usr/src
     command: poetry run pytest -vv --cov .
+
+  prometheus:
+    image: prom/prometheus:latest
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+
+  grafana:
+    image: grafana/grafana:latest
+    restart: unless-stopped
+    #user: "472"
+    depends_on:
+      - prometheus
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./observability/datasource.yml:/etc/grafana/provisioning/datasource.yml
+    env_file:
+      - ./observability/config.monitoring
