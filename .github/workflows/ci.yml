@@ -40,8 +40,14 @@ jobs:
         run: poetry install
         if: steps.cache.outputs.cache-hit != 'true'
 
-      - name: Code Quality
+      - name: Code Format :: black
         run: poetry run black . --check --diff
+
+      - name: Code quality :: flake8
+        run: poetry run flake8 .
+
+      - name Code quality :: pylint
+      - run: poetry run pylint .
 
       - name: Test with pytest
         run: poetry run pytest --cov .

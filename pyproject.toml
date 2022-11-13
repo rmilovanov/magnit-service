@@ -20,6 +20,8 @@ pytest = "^7.2.0"
 pytest-cov = "^4.0.0"
 mock = "^4.0.3"
 black = {version = "^22.10.0", allow-prereleases = true}
+pylint = "^2.15.5"
+flake8 = "^5.0.4"
 
 [build-system]
 requires = ["poetry-core"]
