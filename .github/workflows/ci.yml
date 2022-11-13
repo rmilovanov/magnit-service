@@ -44,7 +44,7 @@ jobs:
         run: poetry run black service tests --check --diff
 
       - name: Code quality control with flake8
-        run: poetry run flake8 service tests
+        run: poetry run flake8 service tests --max-line-length 120
 
       - name: Code quality control with pylint
         run: poetry run pylint service tests
