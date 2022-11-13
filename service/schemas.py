@@ -19,7 +19,7 @@ class CalcTaskPayload(BaseModel):
     operation: str
 
     @validator("operation")
-    def supported_operations(self, oprtn):  # cls?
+    def supported_operations(cls, oprtn):
         if oprtn not in CalcOperations.members():
             raise ValueError(f"Supported operations are {CalcOperations.members()}")
         return oprtn
