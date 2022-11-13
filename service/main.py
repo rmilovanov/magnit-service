@@ -2,6 +2,7 @@ import uvicorn
 from fastapi import FastAPI
 import logging
 from service.schemas import CalcTaskPayload, TaskID, TaskResult
+
 # from computations import make_computation, assign_task_id, StoreTasks
 from service.worker import make_computations
 from celery.result import AsyncResult
@@ -29,7 +30,7 @@ app = FastAPI(
 @app.get("/", include_in_schema=False)
 async def root():
     # return {"message": "Server up and running in docker!"}
-    return RedirectResponse(url='/docs')
+    return RedirectResponse(url="/docs")
 
 
 @app.post("/calc/", response_model=TaskID)
@@ -44,7 +45,7 @@ async def task_result(task_id: str):
     result = {
         "task_id": task_id,
         "task_status": task_res.status,
-        "task_result": task_res.result
+        "task_result": task_res.result,
     }
     return JSONResponse(result)
 
