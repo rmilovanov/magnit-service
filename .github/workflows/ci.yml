@@ -47,7 +47,10 @@ jobs:
         run: poetry run flake8 service tests --max-line-length 120
 
       - name: Code quality control with pylint
-        run: poetry run pylint service tests
+        run: poetry run pylint service tests --disable=C0111 --max-line-length=120 --extension-pkg-whitelist='pydantic'
+
+      - name: Tests code quality control with pylint
+        run: poetry run pylint service tests --disable=C0111,C0415,R0903 --max-line-length=120
 
       - name: Test with pytest
         run: poetry run pytest --cov .

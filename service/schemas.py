@@ -1,5 +1,5 @@
-from pydantic import BaseModel, validator
 from enum import Enum
+from pydantic import BaseModel, validator
 
 
 class CalcOperations(Enum):
@@ -8,6 +8,10 @@ class CalcOperations(Enum):
     MULTIPLICATION = "*"
     DIVISION = "/"
 
+    @classmethod
+    def members(cls):
+        return list(cls._value2member_map_.keys())
+
 
 class CalcTaskPayload(BaseModel):
     x: int
@@ -15,13 +19,10 @@ class CalcTaskPayload(BaseModel):
     operation: str
 
     @validator("operation")
-    def supported_operations(cls, op):
-        if op not in CalcOperations._value2member_map_:
-            raise ValueError(
-                "Supported operations are %s"
-                % list(CalcOperations._value2member_map_.keys())
-            )
-        return op
+    def supported_operations(self, oprtn):  # cls?
+        if oprtn not in CalcOperations.members():
+            raise ValueError(f"Supported operations are {CalcOperations.members()}")
+        return oprtn
 
 
 class TaskID(BaseModel):

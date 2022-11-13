@@ -1,13 +1,12 @@
-import uvicorn
-from fastapi import FastAPI
 import logging
-from service.schemas import CalcTaskPayload, TaskID, TaskResult
 
-# from computations import make_computation, assign_task_id, StoreTasks
-from service.worker import make_computations
 from celery.result import AsyncResult
-from fastapi.responses import JSONResponse
-from fastapi.responses import RedirectResponse
+from fastapi import FastAPI
+from fastapi.responses import JSONResponse, RedirectResponse
+import uvicorn
+
+from service.schemas import CalcTaskPayload, TaskID, TaskResult
+from service.worker import make_computations
 
 
 logging.basicConfig(filename="log.log", level=logging.INFO)
